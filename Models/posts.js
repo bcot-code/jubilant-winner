@@ -18,6 +18,9 @@ post.init(
         notEmpty: true,
       },
     },
+    subtitle: {
+      type: DataTypes.STRING,
+    },
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -28,6 +31,10 @@ post.init(
       validate: {
         notEmpty: true,
       },
+    },
+    date_post: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
     user_id: {
       type: DataTypes.INTEGER,
