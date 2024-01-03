@@ -1,0 +1,9 @@
+<article class="post">
+    <div class="post-content">
+        <h2>{{ post.title }}</h2>
+        {% if post.subtitle %}<h3 class="post-subtitle">{{ post
+            .subtitle }}</h3>{% endif %}
+        <p class="post-meta">
+            Posted by {{user.username}} | {{ post.date | date: "%B %-d, %Y"
+            }}
+</article>
