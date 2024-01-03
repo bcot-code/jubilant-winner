@@ -1,0 +1,45 @@
+<section class="sign_up">
+  <div class="formHead">
+    <h1>
+      Sign Up
+    </h1>
+  </div>
+  <div class="sect_form">
+    <form class="sign_up_form">
+      <div>
+        <label for="userName">Choose a Username</label>
+        <input
+          type="text"
+          class="text-field"
+          name="username"
+          id="userName"
+          placeholder="Username"
+        />
+      </div>
+      <div>
+        <label for="emailAddr">Email Address:</label>
+        <input
+          type="email"
+          name="email"
+          id="emailAddr"
+          placeholder="example@domain.com"
+          required
+        />
+      </div>
+      <div>
+        <label for="passWord">Password: (8-20 characters)</label>
+        <input
+          type="password"
+          name="pwd"
+          id="passWord"
+          pattern=".{8,20}"
+          title="Must be between 8 and 20 characters"
+          required
+        />
+      </div>
+      <button type="submit" class="login-sign-up-btn">Sign Up</button>
+    </form>
+  </div>
+  <a href="/login" class="login">Login Already?</a>
+</section>
+<script src="/js/signup.js"></script>
