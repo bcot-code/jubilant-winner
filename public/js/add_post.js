@@ -4,7 +4,7 @@ const add_post = async () => {
   if (title === "" || content === "") {
     alert("Please fill out all fields");
   } else {
-    await fetch("/api/posts", {
+    await fetch("/api/Posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: title, content: content }),

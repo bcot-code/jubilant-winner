@@ -3,7 +3,7 @@ const deletepost = async (event) => {
   event.preventDefault();
   let post_id = window.location.toString().split("/").pop();
   if (post_id) {
-    const response = await fetch(`/api/posts/${post_id}`, {
+    const response = await fetch(`/api/Posts/${post_id}`, {
       method: "DELETE",
     });
     if (response.ok) {

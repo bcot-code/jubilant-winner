@@ -1,0 +1,45 @@
+<section class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <h2>Create New Post</h2>
+    <form class="new-post_form">
+      <div>
+        <label for="post_title"> Title</label>
+        <input
+          type="text"
+          id="post_title"
+          name="post[title]"
+          required
+          placeholder="Title of the post"
+        /><br />
+      </div>
+      <div>
+        <label for "post-text"></label>
+        <textarea
+        rows="8"
+        cols="40"
+        id="post-text"
+        name="post[content]"></textarea>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  </section>
+  <!--THEN I am taken to the dashboard and presented with any blog Posts I have already created -->
+  {{#if Posts.lenght}}
+  <section>
+  <div class="col-md-6">
+    <h3>Posts I created</h3>
+    <ul class="dashboard__list">
+        {{#each Posts as | post|}}
+        <li>
+            <a href="/Posts/{{this.id}}">{{this.title}}</a
+            ><span>by {{this.user.name}} on {{this.date_post}}
+        </li>
+        {{else}}
+        <p>No Posts yet.</p>
+    </ul>
+  </div>
+  </section>
+  {{/if}}
+
+  <script src="/js/add_post.js"></script>

@@ -1,16 +1,21 @@
-const sequelize = require("../config/connect");
 const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connect");
 
 class comment extends Model {}
 
 comment.init(
   {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoInincrement: true },
-    content: {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoInincrement: true,
+    },
+    comment_text: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        len: [1],
       },
     },
     user_id: {
@@ -33,7 +38,6 @@ comment.init(
   {
     sequelize, // We need to pass the connection instance
     freezTableName: true,
-    timestamps: true, // enable timestamp
     underscored: true, // use underscore as delimiter beetween column name and prefix
     modelName: "comment",
   }

@@ -1,6 +1,6 @@
 const comment = async () => {
   /*
-   * This is a JavaScript file that contains the code for creating and posting comments to a blog post.
+   * This is a JavaScript file that contains the code for creating and posting Comments to a blog post.
    */
   // Get the necessary information from the user
   let username = prompt("Please enter your username: ");
@@ -25,7 +25,7 @@ const comment = async () => {
         let myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${userData["token"]}`);
         // Make the HTTP request
-        fetch(`http://localhost:8000/api/posts/${postId}/comments`, {
+        fetch(`http://localhost:8000/api/Posts/${postId}/Comments`, {
           method: "POST",
           headers: myHeaders,
           body: JSON.stringify({ text: commentText }),

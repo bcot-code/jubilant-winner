@@ -6,7 +6,7 @@ const updatepost = async () => {
     alert("No Post ID provided");
     window.location.href = "/";
   }
-  const response = await fetch(`/api/posts/${id}`, { method: "GET" });
+  const response = await fetch(`/api/Posts/${id}`, { method: "GET" });
   if (response.ok) {
     document.querySelector("#title").value = response.title;
     document.querySelector("#body-content").innerHTML = response.body;
@@ -24,7 +24,7 @@ const submitForm = async () => {
   let body = document.querySelector("#body-content").value;
   let blogId = document.querySelector("#blogId").value;
   console.log(title, body, blogId);
-  const response = await fetch("/api/posts", {
+  const response = await fetch("/api/Posts", {
     method: "POST",
     body: JSON.stringify({
       title,

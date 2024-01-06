@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const { User, BlogPost } = require("../models");
+const user = require("../Models/user");
+const post = require("../Models/Post");
 
 // const withAuth = require('../utils/auth');
 
@@ -10,7 +11,7 @@ router.post("/", async (req, res) => {
     if (!req.session.loggedIn) {
       return res.redirect("/login");
     }
-    const newBlogPost = await BlogPost.create({
+    const newBlogPost = await post.create({
       ...req.body,
       user_id: req.session.user_id,
     });
@@ -24,7 +25,7 @@ router.post("/", async (req, res) => {
 //update a blog post
 router.put("/:id", async (req, res) => {
   try {
-    const blogData = await BlogPost.destroy({ where: { id: req.params.id } });
+    const blogData = await post.destroy({ where: { id: req.params.id } });
     if (!blogData) {
       res.status(404).json({ message: "No post found with this id!" });
       return;
@@ -34,16 +35,16 @@ router.put("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
-//get all posts for dashboard page
+//get all Posts for dashboard page
 router.get("/", async (req, res) => {
   try {
-    const blogPosts = await BlogPost.findAll().catch((err) => {
+    const blogPosts = await post.findAll().catch((err) => {
       console.log(err);
     });
-    const userLogins = blogPosts.map((blog) => blog.dataValues.user_id);
+    const userLogins = post.map((blog) => blog.dataValues.user_id);
     let users = [];
     for (let i = 0; i < userLogins.length; i++) {
-      const userInfo = await User.findByPk(userLogins[i]);
+      const userInfo = await user.findByPk(userLogins[i]);
       users.push(userInfo);
     }
     for (let j = 0; j < users.length; j++) {
@@ -58,7 +59,6 @@ router.get("/", async (req, res) => {
     res.render("dashboard", {
       logged_in: req.session.logged_in,
       username: req.session.username,
-      blogposts: users,
     });
   } catch (e) {
     console.log("Error in getting data from database");
@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
 // delete or update my post and taken back to an updated dashboard
 router.delete("/mypost/:id", async (req, res) => {
   try {
-    const deletedBlogPost = await BlogPost.destroy({
+    const deletedBlogPost = await post.destroy({
       where: { id: req.params.id },
     });
     //if no post was found with that id then send a 404

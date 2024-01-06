@@ -1,10 +1,12 @@
 const router = require("express").Router();
-const { User, BlogPost, Comment } = require("../models");
+const user = require("../../Models/user");
+const post = require("../../Models/Post");
+const comment = require("../../Models/Comments");
 
 // CREATE new user
 router.post("/", async (req, res) => {
   try {
-    const dbUserData = await User.create({
+    const dbUserData = await user.create({
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
@@ -25,7 +27,7 @@ router.post("/", async (req, res) => {
 // Login
 router.post("/login", async (req, res) => {
   try {
-    const dbUserData = await User.findOne({
+    const dbUserData = await user.findOne({
       where: {
         email: req.body.email,
       },
@@ -74,13 +76,14 @@ router.post("/logout", (req, res) => {
 });
 
 //get specific user
-router.get("/user/:id", withAuth, async (req, res) => {
-  User.findOne({
-    where: {
-      id: req.params.id,
-    },
-    include: [{ model: Post }, { model: Comment }],
-  })
+router.get("/user/:id", (req, res) => {
+  user
+    .findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: [{ model: post }, { model: comment }],
+    })
     .then((dbUserData) => {
       if (!dbUserData) {
         res.status(404).json({ message: "No user found with this id!" });
@@ -96,7 +99,7 @@ router.get("/user/:id", withAuth, async (req, res) => {
 // Create a new user, then add it to the database
 router.post("/user", async (req, res) => {
   try {
-    const userData = await User.create(req.body);
+    const userData = await user.create(req.body);
     req.session.save(() => {
       req.session.userId = userData.id;
       req.session.loggedIn = true;
@@ -108,9 +111,9 @@ router.post("/user", async (req, res) => {
   }
 });
 // Update an existing user in the database by its ID
-router.put("/user/:id", withAuth, async (req, res) => {
+router.put("/user/:id", async (req, res) => {
   try {
-    const userData = await User.update(req.body, {
+    const userData = await user.update(req.body, {
       individualHooks: true,
       where: {
         id: req.params.id,

@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const { User, BlogPost, Comment } = require("../../models");
-const withAuth = require("../utils/auth");
+const withAuth = require("../../utils/auth");
 
-// route to get all the comments
+// route to get all the Comments
 router.get("/", (req, res) => {
   Comment.findAll({
     include: [User, BlogPost],
@@ -59,3 +59,5 @@ router.post("/", withAuth, (req, res) => {
       res.status(500).json(err);
     });
 });
+
+module.exports = router;

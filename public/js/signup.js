@@ -1,8 +1,8 @@
 const signup = async () => {
   // Get user info from the form fields.
-  let name = document.getElementById("name").value;
-  let email = document.getElementById("email").value;
-  let password1 = document.getElementById("password1").value;
+  let name = document.getElementById("username").value;
+  let email = document.getElementById("email-sign").value;
+  let password1 = document.getElementById("passWord").value;
   let password2 = document.getElementById("password2").value;
   if (password1 !== password2) {
     alert("Passwords do not match!");
@@ -29,4 +29,4 @@ const signup = async () => {
   }
 };
 
-document.querySelector("#signup-form").addEventListener("submit", signup);
+document.querySelector("#sign_up_form").addEventListener("submit", signup);
