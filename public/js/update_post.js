@@ -24,8 +24,8 @@ const submitForm = async () => {
   let body = document.querySelector("#body-content").value;
   let blogId = document.querySelector("#blogId").value;
   console.log(title, body, blogId);
-  const response = await fetch("/api/Posts", {
-    method: "POST",
+  const response = await fetch(`/api/posts/${post_id}`, {
+    method: "PUT",
     body: JSON.stringify({
       title,
       body,
@@ -45,3 +45,5 @@ const submitForm = async () => {
     location.replace("/dashboard");
   }
 };
+
+document.querySelector(".update-POST").addEventListener("submit", updatepost);

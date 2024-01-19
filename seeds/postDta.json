@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Why Mvc is so important",
+    "subtitle": "Reasons",
+    "post_text": "MVC allows developers to maintain a true separation of concern, devising their code between Mdodel layer for data, the View layer for design, and the Controller layer for application logic."
+  },
+  {
+    "title": "Object-Relational Mapping",
+    "subtitle": "liking",
+    "post_text": "I really loved learning ORMs."
+  }
+]

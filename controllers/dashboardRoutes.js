@@ -1,17 +1,14 @@
 const router = require("express").Router();
-const user = require("../Models/user");
-const post = require("../Models/Post");
+const { User, Post } = require("../Models");
 
-// const withAuth = require('../utils/auth');
-
-//create new blog post
+//create new post
 router.post("/", async (req, res) => {
   try {
     console.log(req.body);
     if (!req.session.loggedIn) {
       return res.redirect("/login");
     }
-    const newBlogPost = await post.create({
+    const newBlogPost = await Post.create({
       ...req.body,
       user_id: req.session.user_id,
     });
@@ -25,7 +22,7 @@ router.post("/", async (req, res) => {
 //update a blog post
 router.put("/:id", async (req, res) => {
   try {
-    const blogData = await post.destroy({ where: { id: req.params.id } });
+    const blogData = await Post.destroy({ where: { id: req.params.id } });
     if (!blogData) {
       res.status(404).json({ message: "No post found with this id!" });
       return;
@@ -38,13 +35,13 @@ router.put("/:id", async (req, res) => {
 //get all Posts for dashboard page
 router.get("/", async (req, res) => {
   try {
-    const blogPosts = await post.findAll().catch((err) => {
+    const blogPosts = await Post.findAll().catch((err) => {
       console.log(err);
     });
-    const userLogins = post.map((blog) => blog.dataValues.user_id);
+    const userLogins = Post.map((blog) => blog.dataValues.user_id);
     let users = [];
     for (let i = 0; i < userLogins.length; i++) {
-      const userInfo = await user.findByPk(userLogins[i]);
+      const userInfo = await User.findByPk(userLogins[i]);
       users.push(userInfo);
     }
     for (let j = 0; j < users.length; j++) {
@@ -69,7 +66,7 @@ router.get("/", async (req, res) => {
 // delete or update my post and taken back to an updated dashboard
 router.delete("/mypost/:id", async (req, res) => {
   try {
-    const deletedBlogPost = await post.destroy({
+    const deletedBlogPost = await Post.destroy({
       where: { id: req.params.id },
     });
     //if no post was found with that id then send a 404

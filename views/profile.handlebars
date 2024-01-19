@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-auto">
+    <h2>Welcome, {{username}}</h2>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <h3>Create a Post</h3>
+      <form class="form new_post-form">
+        <div class="group-form">
+          <label for="post_title">Title:</label>
+          <input
+            class="form_input"
+            type="text"
+            id="post_title"
+            name="post_title"
+          />
+        </div>
+        <div class="group-form">
+          <label for="post_subtitle">Subtitle:</label>
+          <input
+            class="form_input"
+            type="text"
+            id="post_subtitle"
+            name="post_subtitle"
+          />
+        </div>
+        <div class="group-form">
+          <label for="post_content"></label>
+          <textarea
+            class="form_input form_textarea"
+            rows="10"
+            cols="50"
+            id="post_content"
+            name="post_content"
+          ></textarea>
+        </div>
+        <div class="group-form">
+          <button type="submit" class="btn btn-primary">Generate</button>
+        </div>
+      </form>
+    </div>
+    {{#if posts.length}}
+      <div class="col-md-6 post_list">
+        <h3>Your Blog Posts ({{posts.length}})</h3>
+        {{#each Posts as |post|}}
+          <div class="row mb-2">
+            <div class="col-md-8">
+              <h4><a href="/post/{{post.id}}">{{post.title}}</a></h4>
+            </div>
+            <div class="col-md-4">
+              <button
+                class="btn btn-sm btn-danger"
+                data-id="{{post.id}}"
+              >DELETE</button>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
+
+  <script src="./js/profile.js"></script>
+</div>

@@ -1,32 +1,32 @@
 //ready to connect to a database in future activities.
-const user = require("./user");
-const post = require("./Post");
-const comment = require("./Comments");
+const User = require("./user");
+const Post = require("./Post");
+const Comment = require("./Comments");
 
-user.hasMany(post, {
+User.hasMany(Post, {
   foreignKey: "user_id",
 });
-post.belongsTo(user, {
+Post.belongsTo(User, {
   foreignKey: "user_id",
 });
-comment.belongsTo(user, {
+Comment.belongsTo(User, {
   foreignKey: "user_id",
   onDelete: "cascade",
   hooks: true,
 });
-user.hasMany(comment, {
+User.hasMany(Comment, {
   foreignKey: "user_id",
 });
-post.hasMany(comment, {
+Post.hasMany(Comment, {
   foreignKey: "post_id",
   onDelete: "cascade",
   hooks: true,
 });
-comment.belongsTo(post, {
+Comment.belongsTo(Post, {
   foreignKey: "post_id",
   onDelete: "cascade",
   hooks: true,
 });
 
 //creates an object with all of the models that can be used throughout the application
-module.exports = { user, post, comment };
+module.exports = { User, Post, Comment };

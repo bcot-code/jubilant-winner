@@ -1,5 +1,5 @@
-<ul>
-  {{#each Posts as |post|}}
-    <li>{{post.title}} ({{post.date_post}})</li>
-  {{/each}}
+<ul class="post_info" aria-label="Post List">
+ {{#each Posts as |post|}}
+    <li>{{> post_text post}}</li>
+ {{/each}}
 </ul>

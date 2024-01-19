@@ -1,38 +1,32 @@
 const router = require("express").Router();
-const user = require("../../Models/user");
-const post = require("../../Models/Post");
-const comment = require("../../Models/Comments");
+const User = require("../../Models/user");
+const Post = require("../../Models/Post");
+const Comment = require("../../Models/Comments");
 
 // CREATE new user
 router.post("/", async (req, res) => {
   try {
-    const dbUserData = await user.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
-
-    // Set up sessions with a 'loggedIn' variable set to `true`
+    const userData = await User.create(req.body);
     req.session.save(() => {
-      req.session.loggedIn = true;
-
-      res.status(200).json(dbUserData);
+      req.session.user_id = userData.id;
+      res.status(200).json(userData);
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json(err);
+    res.status(500).json({ message: "Error creating a new user" });
   }
 });
 
 // Login
 router.post("/login", async (req, res) => {
+  console.log("attempting login", req.body);
   try {
-    const dbUserData = await user.findOne({
+    const dbUserData = await User.findOne({
       where: {
-        email: req.body.email,
+        username: req.body.username,
       },
     });
-
+    console.log(dbUserData);
     if (!dbUserData) {
       res
         .status(400)
@@ -51,7 +45,8 @@ router.post("/login", async (req, res) => {
 
     // Once the user successfully logs in, set up the sessions variable 'loggedIn'
     req.session.save(() => {
-      req.session.loggedIn = true;
+      req.session.user_id = dbUserData.id;
+      req.session.logged_In = true;
 
       res
         .status(200)
@@ -63,27 +58,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Logout
-router.post("/logout", (req, res) => {
-  // When the user logs out, destroy the session
-  if (req.session.loggedIn) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  } else {
-    res.status(404).end();
-  }
-});
-
 //get specific user
 router.get("/user/:id", (req, res) => {
-  user
-    .findOne({
-      where: {
-        id: req.params.id,
-      },
-      include: [{ model: post }, { model: comment }],
-    })
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+    include: [{ model: Post }, { model: Comment }],
+  })
     .then((dbUserData) => {
       if (!dbUserData) {
         res.status(404).json({ message: "No user found with this id!" });
@@ -97,19 +79,19 @@ router.get("/user/:id", (req, res) => {
     });
 });
 // Create a new user, then add it to the database
-router.post("/user", async (req, res) => {
-  try {
-    const userData = await user.create(req.body);
-    req.session.save(() => {
-      req.session.userId = userData.id;
-      req.session.loggedIn = true;
-      res.status(200).json(userData);
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
+// router.post("/user", async (req, res) => {
+//   try {
+//     const userData = await user.create(req.body);
+//     req.session.save(() => {
+//       req.session.userId = userData.id;
+//       req.session.logged_In = true;
+//       res.status(200).json(userData);
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json(err);
+//   }
+// });
 // Update an existing user in the database by its ID
 router.put("/user/:id", async (req, res) => {
   try {
@@ -126,6 +108,19 @@ router.put("/user/:id", async (req, res) => {
     res.status(200).json(userData);
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+// Logout
+router.post("/logout", (req, res) => {
+  console.log(req.session);
+  // When the user logs out, destroy the session
+  if (req.session.logged_In) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(400).end();
   }
 });
 

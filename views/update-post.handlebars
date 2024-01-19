@@ -1,0 +1,37 @@
+<a href="/dashboard" class="go-back">BACK TO Dashboard</a>
+<article>
+  <section>
+    <div class="form-head">
+      <h2>Update Post</h2>
+    </div>
+    <div class="form-section">
+      <form class="update-POST">
+        <div class="post_title_sect">
+          <label for="postTitle">Post Title:</label><br />
+          <input
+            type="text"
+            id="postTitle"
+            name="postTitle"
+            value="{{post.title}}"
+          />
+        </div>
+        <div class="post_content_sect">
+          <label for="postContent">Content:</label><br />
+          <textarea
+            rows="10"
+            cols="50"
+            id="postContent"
+            name="post_content"
+          >{{post.post_text}}</textarea>
+        </div>
+        <button type="submit"> Turn in Post</button>
+        <button type="button" class="delete-opt">Remove Post</button>
+      </form>
+    </div>
+  </section>
+</article>
+
+{{#if loggin_In}}
+  <script src="/public/js/update_post.js"></script>
+  <script src="/public/js/delete_post.js"></script>
+{{/if}}

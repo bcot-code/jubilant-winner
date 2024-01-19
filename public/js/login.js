@@ -1,18 +1,19 @@
 const loginFormerHandler = async (event) => {
-  //console.log("loginFormerHandler called");
+  console.log("loginFormerHandler called");
   event.preventDefault();
   //Collect value from the login form
-  const email = document.querySelector("#email-input").value.trim();
-  const password = document.querySelector("#passWord_login").value.trim();
-  if (email && password) {
+  const username = document.querySelector("#user-input").value.trim();
+  const password = document.querySelector("#password_login").value.trim();
+  if (username && password) {
     //Send a post request to the server with this information
-    const response = await fetch("/api/user/login", {
+    const response = await fetch("/api/users/login", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },
     });
     //If successful redirect user to dashboard page else display an error message
     if (response.ok) {
+      console.log("Sucessful login!");
       document.location.replace("/profile");
     } else {
       alert(response.statusText);
@@ -20,6 +21,7 @@ const loginFormerHandler = async (event) => {
   }
 };
 
-document
-  .querySelector(".login-form")
-  .addEventListener("submit", loginFormerHandler);
+const elem = document.querySelector(".login-form");
+
+console.log(elem);
+elem.addEventListener("submit", loginFormerHandler);
